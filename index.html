@@ -1,72 +1,21 @@
- <!-- Full upgraded Year 7 Grammar Quiz with leaderboard, timer, design improvements -->
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Year 7 Grammar Quiz</title>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background: linear-gradient(-45deg, #ff9ff3, #feca57, #48dbfb, #1dd1a1);
-    background-size: 400% 400%;
-    animation: gradientBG 10s ease infinite;
-    color: #222;
-    min-height: 100vh;
-    padding: 20px;
-  }
-  @keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  h1 {
-    color: #fff;
-    text-shadow: 2px 2px 5px #000;
-  }
-  .board {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
-    max-width: 600px;
-    margin: 20px auto;
-  }
-  .question-btn, .finish-btn {
-    background-color: #fff;
-    border: none;
-    padding: 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    transition: 0.3s;
-  }
+  body { font-family: Arial, sans-serif; text-align: center; background: linear-gradient(-45deg, #ff9ff3, #feca57, #48dbfb, #1dd1a1); background-size: 400% 400%; animation: gradientBG 10s ease infinite; color: #222; min-height: 100vh; padding: 20px; }
+  @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+  h1 { color: #fff; text-shadow: 2px 2px 5px #000; }
+  .board { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; max-width: 600px; margin: 20px auto; }
+  .question-btn, .finish-btn { background-color: #fff; border: none; padding: 20px; border-radius: 10px; cursor: pointer; font-size: 18px; font-weight: bold; transition: 0.3s; }
   .question-btn:hover { background-color: #1dd1a1; color: #fff; }
   .finish-btn:hover { background-color: #ee5253; color: #fff; }
-  .question-box {
-    display: none;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 600px;
-    margin: 20px auto;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    position: relative;
-  }
+  .question-box { display: none; background-color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 20px auto; box-shadow: 0 4px 8px rgba(0,0,0,0.3); position: relative; }
   .answers button { display: block; margin: 10px auto; padding: 12px 15px; width: 90%; border: none; border-radius: 8px; background-color: #48dbfb; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 16px; }
   .answers button:hover { background-color: #0abde3; }
-  .hint-btn, .tts-btn, .next-btn {
-    margin-top: 10px;
-    background-color: #ff9f43;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-    transition: 0.3s;
-  }
+  .hint-btn, .tts-btn, .next-btn { margin-top: 10px; background-color: #ff9f43; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 15px; transition: 0.3s; }
   .hint-btn:hover, .tts-btn:hover, .next-btn:hover { background-color: #e67e22; }
   .explanation { margin-top: 15px; padding: 10px; background-color: #dfe6e9; border-radius: 8px; display: none; }
   .scoreboard { margin-top: 20px; color: white; font-size: 18px; }
@@ -91,8 +40,8 @@
   <p>Current Turn: <span id="turn">Group 1</span></p>
 </div>
 <button class="finish-btn" onclick="finishGame()">Finish & Show Winner</button>
-
 <script>
+// MAIN QUESTIONS ARRAY WITH EXPLANATIONS
 const questions = [
   { q: "Which sentence is a simple sentence?", a: ["I like ice cream.", "I like ice cream, and my friend likes cake.", "Although I like ice cream, I didn't eat any.","I went to the park and played games."], correct: 0, exp: "A simple sentence has one subject and one verb. It's one complete idea." },
   { q: "Which sentence is a compound sentence?", a: ["I went to the store, and I bought milk.", "She sleeps early.", "Although it rained, we played football.", "He runs fast."], correct: 0, exp: "A compound sentence has two independent clauses joined by a conjunction like 'and', 'but', or 'or'." },
@@ -111,13 +60,13 @@ const questions = [
   { q: "Which sentence is in the future tense?", a: ["I will travel to London.", "I traveled to London.", "I travel to London.", "I am traveling to London."], correct: 0, exp: "Future tense uses 'will' to show an action that will happen later." }
 ];
 
+// GAME VARIABLES
 let group1Score = 0;
 let group2Score = 0;
 let currentTurn = 1;
 let currentQuestion = null;
 let timerInterval;
 let timeLeft = 30;
-
 const board = document.getElementById('board');
 const questionBox = document.getElementById('questionBox');
 const questionText = document.getElementById('questionText');
@@ -126,11 +75,11 @@ const explanationBox = document.getElementById('explanationBox');
 const nextBtn = document.getElementById('nextBtn');
 const timerEl = document.getElementById('timer');
 
-questions.forEach((q, i) => {
-  const btn = document.createElement('button');
-  btn.textContent = i + 1;
-  btn.className = 'question-btn';
-  btn.onclick = () => showQuestion(i, btn);
+questions.forEach((q,i)=>{
+  const btn=document.createElement('button');
+  btn.textContent=i+1;
+  btn.className='question-btn';
+  btn.onclick=()=>showQuestion(i,btn);
   board.appendChild(btn);
 });
 
@@ -140,38 +89,13 @@ function startTimer(){timeLeft=30;timerEl.textContent=`Time Left: ${timeLeft}s`;
 
 let currentQuestionBtn=null;
 
-function showQuestion(index, btn){
-  startTimer();
-  currentQuestion=questions[index];
-  currentQuestionBtn=btn;
-  questionText.textContent=currentQuestion.q;
-  explanationBox.style.display='none';
-  answersDiv.innerHTML='';
-  const order=shuffle([0,1,2,3]);
-  order.forEach(i=>{const b=document.createElement('button');b.textContent=currentQuestion.a[i];b.onclick=()=>checkAnswer(i===currentQuestion.correct);answersDiv.appendChild(b);});
-  questionBox.style.display='block';
-  nextBtn.style.display='none';
-}
+function showQuestion(index,btn){startTimer();currentQuestion=questions[index];currentQuestionBtn=btn;questionText.textContent=currentQuestion.q;explanationBox.style.display='none';answersDiv.innerHTML='';const order=shuffle([0,1,2,3]);order.forEach(i=>{const b=document.createElement('button');b.textContent=currentQuestion.a[i];b.onclick=()=>checkAnswer(i===currentQuestion.correct);answersDiv.appendChild(b);});questionBox.style.display='block';nextBtn.style.display='none';}
 
 function readQuestion(){const speech=new SpeechSynthesisUtterance(currentQuestion.q);speechSynthesis.speak(speech);}
-
 function showHint(){explanationBox.textContent='Hint: '+currentQuestion.exp;explanationBox.style.display='block';}
-
-function checkAnswer(isCorrect){clearInterval(timerInterval);[...answersDiv.children].forEach(b=>b.disabled=true);
-explanationBox.textContent=(isCorrect?'Correct! ':'Wrong! ')+currentQuestion.exp;explanationBox.style.display='block';
-if(isCorrect){if(currentTurn===1)group1Score+=10;else group2Score+=10;}
-document.getElementById('group1Score').textContent=group1Score;
-document.getElementById('group2Score').textContent=group2Score;
-nextBtn.style.display='block';
-currentTurn=currentTurn===1?2:1;
-document.getElementById('turn').textContent=`Group ${currentTurn}`;}
-
+function checkAnswer(isCorrect){clearInterval(timerInterval);[...answersDiv.children].forEach(b=>b.disabled=true);explanationBox.textContent=(isCorrect?'Correct! ':'Wrong! ')+currentQuestion.exp;explanationBox.style.display='block';if(isCorrect){if(currentTurn===1)group1Score+=10;else group2Score+=10;}document.getElementById('group1Score').textContent=group1Score;document.getElementById('group2Score').textContent=group2Score;nextBtn.style.display='block';currentTurn=currentTurn===1?2:1;document.getElementById('turn').textContent=`Group ${currentTurn}`;}
 nextBtn.onclick=()=>{questionBox.style.display='none';currentQuestionBtn.disabled=true;};
-
-function finishGame(){
-  let winner='';
-  if(group1Score>group2Score)winner='Group 1 Wins! 🏆';
-  else if(group2Score>group1Score)winner='Group 2 Wins! 🏆';
-  else winner='It’s a tie! Great teamwork!';
-  alert(`Game Over!\n${winner}`);
-}
+function finishGame(){let winner='';if(group1Score>group2Score)winner='Group 1 Wins! 🏆';else if(group2Score>group1Score)winner='Group 2 Wins! 🏆';else winner='It’s a tie! Great teamwork!';alert(`Game Over!\n${winner}`);}
+</script>
+</body>
+</html>
