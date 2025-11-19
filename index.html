@@ -41,7 +41,9 @@
 </div>
 <button class="finish-btn" onclick="finishGame()">Finish & Show Winner</button>
 <script>
-// MAIN QUESTIONS ARRAY WITH EXPLANATIONS
+// ==========================
+// QUESTIONS SECTION - EDIT HERE
+// ==========================
 const questions = [
   { q: "Which sentence is a simple sentence?", a: ["I like ice cream.", "I like ice cream, and my friend likes cake.", "Although I like ice cream, I didn't eat any.","I went to the park and played games."], correct: 0, exp: "A simple sentence has one subject and one verb. It's one complete idea." },
   { q: "Which sentence is a compound sentence?", a: ["I went to the store, and I bought milk.", "She sleeps early.", "Although it rained, we played football.", "He runs fast."], correct: 0, exp: "A compound sentence has two independent clauses joined by a conjunction like 'and', 'but', or 'or'." },
@@ -60,7 +62,9 @@ const questions = [
   { q: "Which sentence is in the future tense?", a: ["I will travel to London.", "I traveled to London.", "I travel to London.", "I am traveling to London."], correct: 0, exp: "Future tense uses 'will' to show an action that will happen later." }
 ];
 
-// GAME VARIABLES
+// ==========================
+// GAME VARIABLES AND FUNCTIONS
+// ==========================
 let group1Score = 0;
 let group2Score = 0;
 let currentTurn = 1;
